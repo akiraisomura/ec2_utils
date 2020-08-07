@@ -1,0 +1,11 @@
+tags:
+  - :name: tag:Temporary
+    :values:
+      - 'true'
+
+launch_from_hour: 24
+
+states:
+  - running
+
+message: "EC2 instances for temporal use are still running \n %{instances}"
