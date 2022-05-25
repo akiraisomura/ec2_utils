@@ -1,12 +1,24 @@
 name: Style check
 
-on: push
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
-      - name: Rubocop checks
-        uses: gimenete/rubocop-action@1.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check out code
+        uses: actions/checkout@v1
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.5.0
+      - name: rubocop
+        uses: reviewdog/action-rubocop@v1
+        with:
+          rubocop_version: gemfile
+          rubocop_extensions: rubocop-rails:gemfile rubocop-rspec:gemfile
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review # Default is github-pr-check
