@@ -39,12 +39,10 @@ def list_snapshots_without_ami(snapshots)
 end
 
 def select_nonexistent_image_ids(image_ids)
-  begin
-    existent_images = list_images(image_ids)
-    image_ids - existent_images.map(&:image_id)
-  rescue Aws::EC2::Errors::InvalidAMIIDNotFound => e
-    return e.message.match(/\[.*\]/)[0].gsub(/\[|\]|\s/, '').split(",")
-  end
+  existent_images = list_images(image_ids)
+  image_ids - existent_images.map(&:image_id)
+rescue Aws::EC2::Errors::InvalidAMIIDNotFound => e
+  return e.message.match(/\[.*\]/)[0].gsub(/\[|\]|\s/, '').split(",")
 end
 
 def list_images(image_ids)
