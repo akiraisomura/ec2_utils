@@ -42,7 +42,7 @@ def select_nonexistent_image_ids(image_ids)
   existent_images = list_images(image_ids)
   image_ids - existent_images.map(&:image_id)
 rescue Aws::EC2::Errors::InvalidAMIIDNotFound => e
-  e.message.match(/\[.*\]/)[0].gsub(/\[|\]|\s/, '').split(",")
+  e.message.match(/\[.*\]/)[0].gsub(/\[|\]|\s/, '').split(',')
 end
 
 def list_images(image_ids)
